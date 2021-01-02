@@ -7,12 +7,8 @@ import 'package:saha/databaseManager/databaseManager.dart';
 
 import 'design_course_app_theme.dart';
 
-class Products extends StatefulWidget {
-  @override
-  _ProductsState createState() => _ProductsState();
-}
+class Products extends StatelessWidget {
 
-class _ProductsState extends State<Products> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -20,8 +16,6 @@ class _ProductsState extends State<Products> {
       builder: (context, snapshot) {
         return Container(
             height: 195,
-
-
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 // shrinkWrap: true,
@@ -45,12 +39,21 @@ class _ProductsState extends State<Products> {
                                             products.data()['Price'],
                                         product_details_picture:
                                             products.data()['imageURL'],
+                                        product_details_description:
+                                            products.data()['description'],
+                                      product_details_id:
+                                      products.id,
                                       ))),
                           child: Container(
                             width: 110,
                             child: ListTile(
                                 contentPadding: EdgeInsets.all(5.0),
-                                title: Image.network(products['imageURL']),
+                                title: //Hero(
+                                   // tag: products['imageURL'].toString(),
+                                    //child:
+                                Image.network(products['imageURL'])
+                            //)
+                              ,
                                 subtitle: Padding(
                                     padding: EdgeInsets.all(5.0),
                                     child: Column(children: <Widget>[
@@ -64,29 +67,32 @@ class _ProductsState extends State<Products> {
                                         textHeightBehavior: TextHeightBehavior(
                                             applyHeightToFirstAscent: true),
                                       ),
-
                                       ButtonTheme(
-                                      height: 30 ,
-                                     child: RaisedButton(
-
-                                        shape: RoundedRectangleBorder(
-                                            side: BorderSide(color: Colors.blue),
-                                          borderRadius: const BorderRadius.all(Radius.circular(100.0)),
-                                        ),
+                                        height: 30,
+                                        child: RaisedButton(
+                                          shape: RoundedRectangleBorder(
+                                            side:
+                                                BorderSide(color: Colors.blue),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(100.0)),
+                                          ),
                                           padding: const EdgeInsets.all(2.0),
                                           textColor: Colors.blue,
                                           color: Colors.white,
-
                                           onPressed: () {},
-                                          child: new Text("Add to Cart",style: TextStyle(fontSize: 12),),
+                                          child: new Text(
+                                            "Add to Cart",
+                                            style: TextStyle(fontSize: 12),
+                                          ),
                                         ),
 
-
-                                      //subtitle: Text(products['description'],overflow: TextOverflow.visible,softWrap: true,
-                                      //textHeightBehavior:
-                                      // TextHeightBehavior(
-                                      //     applyHeightToFirstAscent: true),
-                                      )])
+                                        //subtitle: Text(products['description'],overflow: TextOverflow.visible,softWrap: true,
+                                        //textHeightBehavior:
+                                        // TextHeightBehavior(
+                                        //     applyHeightToFirstAscent: true),
+                                      )
+                                    ])
                                     //),
                                     )),
                           )));

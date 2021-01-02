@@ -20,7 +20,7 @@ class _EmailSignUpState extends State<EmailSignUp> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
-
+  TextEditingController pincodeController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,6 +121,26 @@ class _EmailSignUpState extends State<EmailSignUp> {
                   },
                 ),
               ),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 10,left: 20,right: 20),
+                    child: DropdownButtonFormField(
+                      value: pincodeController,
+                      items:<DropdownMenuItem> [
+                        //DropdownMenuItem<String>(key:Key("lol") ,onTap:(){},value:"1",child:Text("testx")),
+                       // DropdownMenuItem(value: 1,child:new Text('lol'),onTap:(){})
+                      ],
+                      decoration: InputDecoration(
+
+                        labelText: "Select Pin code",
+                        enabledBorder: OutlineInputBorder(
+
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
+                      // The validator receives the text that the user has entered.
+
+                    ),
+                  ),
               Padding(
                 padding: EdgeInsets.only(bottom: 10,left: 20,right: 20),
                 child: isLoading ? CircularProgressIndicator()
@@ -146,9 +166,13 @@ class _EmailSignUpState extends State<EmailSignUp> {
             email: emailController.text, password: passwordController.text)
         .then((result) {
       dbRef.doc(result.user.uid).set({
+        "name": nameController.text,
         "email": emailController.text,
-        "phone": phoneController.text,
-        "name": nameController.text
+        "pNum": phoneController.text,
+        "pincode":"",
+        "cart":"",
+        "isAdmin":false,
+        "isGuest":false,
       }).then((res) {
         isLoading = false;
         Navigator.pushReplacement(

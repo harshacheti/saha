@@ -38,6 +38,7 @@ dependencies:
   flutter_signin_button:
   razorpay_flutter:
   google_sign_in:
+  google_fonts:
 
 
 dev_dependencies:

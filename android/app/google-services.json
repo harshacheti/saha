@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "217752987550",
+    "firebase_url": "https://angadi-6266d.firebaseio.com",
+    "project_id": "angadi-6266d",
+    "storage_bucket": "angadi-6266d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:217752987550:android:cd3cd6d966fedc61edd88f",
+        "android_client_info": {
+          "package_name": "com.angadi.eshop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "217752987550-d9a1ngpcoenoa105ce6ucom138qop78u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBK-VvctLJKZytfFySOjyD55VyNsYs8Gdo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "217752987550-d9a1ngpcoenoa105ce6ucom138qop78u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:217752987550:android:ff132e6f732752adedd88f",
+        "android_client_info": {
+          "package_name": "com.boltzmann.angadi_mobile_firebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "217752987550-d9a1ngpcoenoa105ce6ucom138qop78u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBK-VvctLJKZytfFySOjyD55VyNsYs8Gdo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "217752987550-d9a1ngpcoenoa105ce6ucom138qop78u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:217752987550:android:ff8b6c184be84521edd88f",
+        "android_client_info": {
+          "package_name": "com.eangadi.saha"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "217752987550-d9a1ngpcoenoa105ce6ucom138qop78u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBK-VvctLJKZytfFySOjyD55VyNsYs8Gdo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "217752987550-d9a1ngpcoenoa105ce6ucom138qop78u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

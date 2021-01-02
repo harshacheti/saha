@@ -5,6 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 import 'email_login.dart';
 import 'email_signup.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 import 'home_page.dart';
@@ -58,6 +59,16 @@ class _SignUpState extends State<SignUp> {
       userDetails.email,
       providerData,
     );
+    CollectionReference dbRef = FirebaseFirestore.instance.collection('users');
+    dbRef.doc(userDetails.uid).set({
+      "name": userDetails.displayName,
+      "email": userDetails.email,
+      "pNum": "",
+      "pincode":"",
+      "cart":"",
+      "isAdmin":false,
+      "isGuest":false,
+    });
 
     Navigator.push(
       context,

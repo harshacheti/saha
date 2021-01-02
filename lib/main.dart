@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Splash',
       theme: ThemeData(
+
         brightness: Brightness.light,
         primaryColor: Colors.lightBlue[50],
         accentColor: Colors.cyan[600],

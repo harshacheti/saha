@@ -101,6 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
             new UserAccountsDrawerHeader(
               accountName: Text(FirebaseAuth.instance.currentUser.displayName),
 
+
         /*FutureBuilder(
             future: FirebaseFirestore.instance.collection('users').doc(widget.uid).get(),
           builder: (context, snapshot) {
@@ -111,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
               return CircularProgressIndicator();
             }
           }),*/
-              accountEmail: Text(FirebaseAuth.instance.currentUser.email),
+              //accountEmail: //Text(FirebaseAuth.instance.currentUser.email),
               /*FutureBuilder(
                  future: FirebaseFirestore.instance.collection('users').doc(widget.uid).get(),
                   builder: (context, snapshot) {

@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:saha/components/products.dart';
 
 import '../main.dart';
 import 'home_page.dart';
@@ -9,12 +11,16 @@ class ProductDetails extends StatefulWidget {
   final product_details_new_price;
   final product_details_old_price;
   final product_details_picture;
+  final product_details_description;
+  final product_details_id;
 
   ProductDetails(
       {this.product_details_name,
       this.product_details_new_price,
       this.product_details_old_price,
-      this.product_details_picture});
+      this.product_details_picture,
+      this.product_details_description,
+      this.product_details_id});
 
   @override
   _ProductDetailsState createState() => _ProductDetailsState();
@@ -24,269 +30,197 @@ class _ProductDetailsState extends State<ProductDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: new AppBar(
-        elevation: 0.0,
-        backgroundColor: Colors.lightBlue[50],
+        appBar: new AppBar(
+          elevation: 0.0,
+          centerTitle: true,
+          backgroundColor: Colors.lightBlue[50],
           iconTheme: IconThemeData(color: Colors.blueGrey),
-
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Image.asset(
-              'assets/images/updlogo.png',
-              height: 62,
-              width: 186,
+          title: Text(
+            'Product',
+            style: GoogleFonts.varelaRound(
+              color: Color(0xff2A2D31),
+              fontWeight: FontWeight.w600,
             ),
+          ),
+          titleSpacing: -10.0,
+          actions: <Widget>[
+            new IconButton(icon: Icon(Icons.search), onPressed: () {}),
           ],
         ),
-        titleSpacing: -10.0,
-        actions: <Widget>[
-          new IconButton(
-              icon: Icon(Icons.search), onPressed: () {}),
-        ],
-      ),
-      body: ListView(
-        children: <Widget>[
-          new Container(
-            height: 300.0,
-            child: GridTile(
-              child: Container(
-                color: Colors.white,
-                child: Image.network(widget.product_details_picture),
-              ),
-              footer: new Container(
-                color: Colors.white70,
-                child: ListTile(
-                  leading: new Text(
-                    widget.product_details_name,
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-                  ),
-                  trailing: new Column(
-                    children: <Widget>[
-                      Expanded(
-                        child: new Text(
-                          "\₹ ${widget.product_details_old_price}",
-                          style: TextStyle(
-                              color: Colors.grey,
-                              decoration: TextDecoration.lineThrough),
-                        ),
-                      ),
-                      Expanded(
-                        child: new Text(
-                          "\₹ ${widget.product_details_new_price}",
-                          style: TextStyle(
-                              color: Colors.blue,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0),
-                        ),
-                      ),
+
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton:Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: FloatingActionButton.extended(
+          elevation: 6,
+            shape: RoundedRectangleBorder(
+              side:
+              BorderSide(color: Colors.blue),
+              borderRadius:
+              const BorderRadius.all(
+                  Radius.circular(100.0)),
+            ),
+             isExtended: true,
+            label: Text("Add to My Cart",style: TextStyle(color: Colors.blue),),
+            backgroundColor: Colors.white,
+            onPressed: () {})),
+        body: SingleChildScrollView(
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.grey[200],
+                      Colors.white,
                     ],
+                    stops: [0.1, 1],
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
                   ),
                 ),
+                // child: Hero(
+                //   tag: widget.product_details_id,
+                child: Image.network(
+                  widget.product_details_picture,
+                  height: 300,
+                ),
               ),
-            ),
-          ),
-          Row(
-            children: <Widget>[
-              Expanded(
-                  child: MaterialButton(
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return new AlertDialog(
-                          title: new Text("Size"),
-                          content: new Text("Choose The Size: "),
-                          actions: <Widget>[
-                            new MaterialButton(
-                              onPressed: () {
-                                Navigator.of(context).pop(context);
-                              },
-                              child: new Text("Close"),
-                            )
-                          ],
-                        );
-                      });
-                },
-                color: Colors.white,
-                textColor: Colors.grey,
-                elevation: 0.2,
-                child: Row(
+              // ),
+              Container(
+                child: Column(
                   children: <Widget>[
-                    Expanded(
-                      child: new Text("Size"),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                widget.product_details_name,
+                                style: GoogleFonts.varelaRound(
+                                  color: Color(0xff2A2D31),
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              Text(
+                                "${widget.product_details_old_price}",
+                                //widget.product_details_old_price,
+                                style: GoogleFonts.varelaRound(
+                                  color: Color(0xff2A2D31),
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 15,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(30),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.grey[200],
+                                  Colors.white,
+                                ],
+                                stops: [0.1, 1],
+                                begin: Alignment.bottomLeft,
+                                end: Alignment.topRight,
+                              ),
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(20),
+                              ),
+                            ),
+                            child: Text(
+                              "${widget.product_details_new_price}",
+                              style: GoogleFonts.varelaRound(
+                                color: Color(0xff2A2D31),
+                                fontWeight: FontWeight.w600,
+                                fontSize: 18,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                    Expanded(
-                      child: new Icon(Icons.arrow_drop_down),
+                    Divider(
+                      color: Colors.blueGrey,
                     ),
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                      child: Text(
+                        widget.product_details_description,
+                        style: GoogleFonts.varelaRound(
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    new Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        alignment: Alignment.centerLeft,
+                        child: new Text(
+                          'People also buy',
+                          style: new TextStyle(
+                              fontWeight: FontWeight.bold, color: Color(0xfffc5185)),
+                        ),
+                      ),
+                    ),
+                    Products(),
+                    Container(
+                      height: 58,
+                    ),
+
+
                   ],
                 ),
-              )),
-              Expanded(
-                  child: MaterialButton(
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return new AlertDialog(
-                          title: new Text("Color"),
-                          content: new Text("Choose a Color: "),
-                          actions: <Widget>[
-                            new MaterialButton(
-                              onPressed: () {
-                                Navigator.of(context).pop(context);
-                              },
-                              child: new Text("Close"),
-                            )
-                          ],
-                        );
-                      });
-                },
-                color: Colors.white,
-                textColor: Colors.grey,
-                elevation: 0.2,
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: new Text("Color"),
-                    ),
-                    Expanded(
-                      child: new Icon(Icons.arrow_drop_down),
-                    ),
-                  ],
-                ),
-              )),
-              Expanded(
-                  child: MaterialButton(
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return new AlertDialog(
-                          title: new Text("Quantity"),
-                          content: new Text("Select Quantity: "),
-                          actions: <Widget>[
-                            new MaterialButton(
-                              onPressed: () {
-                                Navigator.of(context).pop(context);
-                              },
-                              child: new Text("Close"),
-                            )
-                          ],
-                        );
-                      });
-                },
-                color: Colors.white,
-                textColor: Colors.grey,
-                elevation: 0.2,
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: new Text("Qty"),
-                    ),
-                    Expanded(
-                      child: new Icon(Icons.arrow_drop_down),
-                    ),
-                  ],
-                ),
-              )),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              Expanded(
-                  child: MaterialButton(
-                onPressed: () {},
-                color: Colors.blue,
-                textColor: Colors.white,
-                elevation: 0.2,
-                child: new Text("Buy Now"),
-              )),
-              new IconButton(
-                  icon: Icon(
-                    Icons.add_shopping_cart,
-                    color: Colors.blue,
-                  ),
-                  onPressed: () {}),
-              new IconButton(
-                  icon: Icon(
-                    Icons.favorite_border,
-                    color: Colors.blue,
-                  ),
-                  onPressed: () {})
-            ],
-          ),
-          Divider(),
-          new ListTile(
-            title: new Text("Product Details"),
-            subtitle: new Text(
-                "Appearances are not reality; but they often can be a convincing alternative to it. You can control appearances most of the time, but facts are what they are. When the facts are too sharp, you can craft a cheerful version of the situation and cover the facts the way that you can covered a battered old four-slice toaster with a knitted cozy featuring images of kittens. "),
-          ),
-          Divider(),
-          Row(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.fromLTRB(12.0, 5.0, 5.0, 5.0),
-                child: new Text(
-                  "Product Name",
-                  style: TextStyle(color: Colors.grey),
-                ),
               ),
-              Padding(
-                padding: EdgeInsets.all(5.0),
-                child: new Text(widget.product_details_name),
-              )
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.fromLTRB(12.0, 5.0, 5.0, 5.0),
-                child: new Text(
-                  "Product Brand",
-                  style: TextStyle(color: Colors.grey),
-                ),
+            ])));
+  }
+}
+
+class _AvailableColor extends StatelessWidget {
+  final Color color;
+  final bool isSelected;
+
+  const _AvailableColor({
+    Key key,
+    this.color,
+    this.isSelected = false,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 25,
+      width: 25,
+      padding: EdgeInsets.all(isSelected ? 1.5 : 0),
+      decoration: isSelected
+          ? BoxDecoration(
+              border: Border.all(
+                color: Color(0xff2A2D31),
               ),
-              Padding(
-                padding: EdgeInsets.all(5.0),
-                child: new Text("Rich Man"),
-              )
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.fromLTRB(12.0, 5.0, 5.0, 5.0),
-                child: new Text(
-                  "Product Condition",
-                  style: TextStyle(color: Colors.grey),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(5.0),
-                child: new Text("Brand New"),
-              )
-            ],
-          ),
-          Divider(),
-          new Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: new Text(
-              'Similar Product Selection',
-              style:
-                  new TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
-            ),
-          ),
-          Container(
-            height: 340.0,
-            child: Similar_product(),
-          )
-        ],
+              shape: BoxShape.circle,
+            )
+          : BoxDecoration(),
+      child: Container(
+        decoration: BoxDecoration(color: color, shape: BoxShape.circle),
       ),
     );
   }
 }
+
+//Container(
+//height: 340.0,
+//child: Similar_product(),
+//)
 
 class Similar_product extends StatefulWidget {
   @override
