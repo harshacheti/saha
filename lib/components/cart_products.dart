@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:saha/actions/cart_functions.dart';
 
 class Cart_products extends StatefulWidget {
   @override
@@ -63,7 +64,7 @@ class single_cart_product extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: StreamBuilder(
-            stream: FirebaseFirestore.instance.collection('users').snapshots(),
+            stream: FirebaseFirestore.instance.collection('products').where(FirebaseFirestore.instance.collection('products').id, arrayContains: split() ).snapshots(),
             builder: (context, snapshot) {
               return ListView.builder(
                   itemCount: snapshot.data.documents.length,
@@ -72,7 +73,7 @@ class single_cart_product extends StatelessWidget {
                     return Card(
                       child: ListTile(
                         leading: new Image.network(
-                          users[''],
+                          users['imageURL'],
                           width: 80.0,
                           height: 80.0,
                         ),

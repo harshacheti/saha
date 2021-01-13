@@ -1,10 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:saha/pages/home_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'home.dart';
 
 class EmailSignUp extends StatefulWidget {
   @override

@@ -39,6 +39,7 @@ dependencies:
   razorpay_flutter:
   google_sign_in:
   google_fonts:
+  algolia:
 
 
 dev_dependencies:

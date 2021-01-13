@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,17 @@ import 'package:splashscreen/splashscreen.dart';
 import 'package:saha/pages/home.dart';
 import 'package:saha/pages/signup.dart';
 
+
+
 void main() async {
+  //print(0);
+  //var l=[adfasdf32132,sdfasdf123123,asdfasdfsa132123];
+  //var k=[{'id':'shyam','quaity':'lol'},{'id':'shyamk','quaity':'lolk'}];
+  //print(k[0]['id']);
+ // print(k[0]);
+ // var idx = k.indexOf((e)=>e['id']=='shyam');
+ // var shyam="shyam";
+  //print(k.forEach((e)=>e.id==shyam));
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp());

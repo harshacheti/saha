@@ -19,6 +19,7 @@ class Horizontallist extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 itemCount: snapshot.data.documents.length,
                 itemBuilder: (context, index) {
+
                   DocumentSnapshot category = snapshot.data.documents[index];
 
                   return Padding(

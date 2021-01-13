@@ -53,7 +53,7 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                       DocumentSnapshot products =
                           snapshot.data.documents[index];
                       if (products.data()["category"] ==
-                          widget.category_details_name) {}
+                          widget.category_details_name) {print('lol');}
                       return Padding(
                           padding: const EdgeInsets.all(2.0),
                           child: InkWell(

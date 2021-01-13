@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:saha/components/products.dart';
 
+
 import '../main.dart';
 import 'home_page.dart';
 
@@ -70,22 +71,24 @@ class _ProductDetailsState extends State<ProductDetails> {
                 children: <Widget>[
 
               Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.grey[200],
-                      Colors.white,
-                    ],
-                    stops: [0.1, 1],
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                  ),
-                ),
+                color: Colors.white,
+                //decoration: BoxDecoration(
+                  //gradient: LinearGradient(
+                   // colors: [
+                      //Colors.grey[200],
+                     // Colors.white,
+                    //],
+                  //  stops: [0.1, 1],
+                   // begin: Alignment.topRight,
+                   // end: Alignment.bottomLeft,
+                 // ),
+                //),
                 // child: Hero(
                 //   tag: widget.product_details_id,
                 child: Image.network(
                   widget.product_details_picture,
                   height: 300,
+
                 ),
               ),
               // ),
@@ -95,29 +98,33 @@ class _ProductDetailsState extends State<ProductDetails> {
                     Padding(
                       padding: const EdgeInsets.only(left: 20),
                       child: Row(
+
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
+                          Container(
+                            width:MediaQuery.of(context).size.width*0.7,
+                              child: Text(
                                 widget.product_details_name,
+                               // softWrap: true,
+                                //overflow: TextOverflow.fade,
                                 style: GoogleFonts.varelaRound(
                                   color: Color(0xff2A2D31),
                                   fontWeight: FontWeight.w600,
                                   fontSize: 18,
+
                                 ),
                               ),
-                              Text(
-                                "${widget.product_details_old_price}",
+
+                              //Text(
+                               // "${widget.product_details_old_price}",
                                 //widget.product_details_old_price,
-                                style: GoogleFonts.varelaRound(
-                                  color: Color(0xff2A2D31),
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 15,
-                                ),
-                              ),
-                            ],
+                              //  style: GoogleFonts.varelaRound(
+                               //   color: Color(0xff2A2D31),
+                               //   fontWeight: FontWeight.w400,
+                               //   fontSize: 15,
+                               // ),
+                             // ),
+                           // ],
                           ),
                           Container(
                             padding: EdgeInsets.all(30),

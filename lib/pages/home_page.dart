@@ -1,25 +1,20 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:saha/actions/cart_functions.dart';
 import 'package:saha/components/category_list_view.dart';
-import 'package:saha/components/horizontal_listview(unuse).dart';
 import 'package:saha/components/products.dart';
-import 'package:saha/pages/cart.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:saha/pages/searchpage.dart';
+import 'package:saha/pages/signup.dart';
 import 'package:saha/payment/checkout_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
-
-
 
 class MyHomePage extends StatefulWidget {
+
   MyHomePage({this.uid, this.title});
   final String uid;
   final String title;
   final FirebaseAuth auth = FirebaseAuth.instance;
-
-
-
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -31,6 +26,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final uid = FirebaseAuth.instance.currentUser.displayName;
   @override
   Widget build(BuildContext context) {
+    first();
     //gives the current user doc id
     print(widget.uid);
     Widget imageCarousel = new Container(
@@ -83,15 +79,28 @@ class _MyHomePageState extends State<MyHomePage> {
           new IconButton(
               icon: Icon(Icons.search),
               color: Colors.blueGrey,
-              onPressed: () {}),
+              onPressed: () {Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => new SearchBar()));}),
           IconButton(
             onPressed: () {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => new CheckoutScreen()));
             },
-            icon: Icon(Icons.shopping_cart),
-            color: Colors.blueGrey,
-            tooltip: "My Cart",
+            icon:  new Stack(
+                children: <Widget>[
+                  new Icon(Icons.shopping_cart,color: Colors.blueGrey,),
+
+                  new Positioned(  // draw a red marble
+                    top: 0.0,
+                    right: 0.0,
+                    child: new Icon(Icons.brightness_1, size: 10.0,
+                        color: Colors.redAccent),
+                  )
+                ]
+            ),
+            // Icon(Icons.shopping_cart),
+           //color: Colors.blueGrey,
+           // tooltip: "My Cart",
           )
         ],
       ),
@@ -99,11 +108,12 @@ class _MyHomePageState extends State<MyHomePage> {
         child: new ListView(
           children: <Widget>[
             new UserAccountsDrawerHeader(
-              accountName: Text(FirebaseAuth.instance.currentUser.displayName),
+              accountName:
+              //Text(FirebaseAuth.instance.currentUser.uid),
 
 
-        /*FutureBuilder(
-            future: FirebaseFirestore.instance.collection('users').doc(widget.uid).get(),
+        FutureBuilder(
+            future: FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser.uid).get(),
           builder: (context, snapshot) {
 
             if (snapshot.hasData) {
@@ -111,7 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
             } else {
               return CircularProgressIndicator();
             }
-          }),*/
+          }),
               //accountEmail: //Text(FirebaseAuth.instance.currentUser.email),
               /*FutureBuilder(
                  future: FirebaseFirestore.instance.collection('users').doc(widget.uid).get(),
@@ -202,6 +212,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
+            InkWell(
+              onTap: () {Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => new SignUp()));},
+              child: ListTile(
+                subtitle: Text('Sign out'),
+                //leading: Icon(
+               //   Icons.live_help,
+                //  color: Colors.blue,
+              //  ),
+              ),
+            ),
           ],
         ),
       ),
@@ -261,6 +282,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
               backgroundColor: Colors.deepPurple),
+
           BottomNavigationBarItem(
               icon: Icon(Icons.person),
               title: Text(
