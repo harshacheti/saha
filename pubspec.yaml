@@ -40,6 +40,8 @@ dependencies:
   google_sign_in:
   google_fonts:
   algolia:
+  provider:
+  connectivity:
 
 
 dev_dependencies:

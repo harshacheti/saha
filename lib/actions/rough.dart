@@ -87,3 +87,81 @@ addIt(){
 //      'quantity': '$count',
 //    }
 //   ];
+
+//child: Card(
+//width: 100,
+// height:100 ,
+// semanticContainer : true,
+// elevation: 2,
+// shape: RoundedRectangleBorder(
+//    borderRadius: BorderRadius.circular(10.0),
+//  ),
+
+
+//tileColor: Colors.white,
+//leading: Container(
+// height: 150,
+//  width: 100,
+//  child: Image.network(
+//   products['imageURL'],
+//    alignment: Alignment.center,
+//  )),
+
+//Text(products['title']),
+//subtitle: Divider(thickness: 1,),
+
+
+//subtitle: Text(products['description'],overflow: TextOverflow.visible,softWrap: true,
+//textHeightBehavior:
+// TextHeightBehavior(
+//     applyHeightToFirstAscent: true),
+
+// ignore: missing_return
+/*item(sam) async {
+  await FirebaseFirestore.instance
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser.uid)
+      .get()
+      .then((d) {
+    var doc = d.data();
+    //print(doc['cart']);
+    var items = deSerializeItems(doc['cart']);
+    list=[];
+
+    //print(lol);
+    return items;
+  }).then((lol) {
+    lol.forEach((masa) {
+      FirebaseFirestore.instance
+          .collection("products")
+          .doc(masa['id'])
+          .get()
+          .then((value) {
+        list.add(value);
+
+        // print(value.data()['price']);
+        //  sam(value.data());
+
+        //list.add(value.data());
+        // print(list);
+      });
+    });
+  });
+}
+
+main() {
+  const twentyMillis = const Duration(milliseconds: 1);
+  new Timer(twentyMillis, () => CheckoutScreen());
+}*/
+
+// Timer.periodic(Duration(seconds: 1), (t) {
+//   list=[];
+//  setState(() {
+//item(sam);
+// });
+//  list=[];
+// });
+
+//future();
+
+// var product_on_the_cart = [item()];

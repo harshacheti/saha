@@ -1,13 +1,18 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:saha/actions/cart_functions.dart';
+import 'package:provider/provider.dart';
 import 'package:saha/components/category_list_view.dart';
 import 'package:saha/components/products.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:saha/models/products_stream.dart';
+import 'package:saha/models/user.dart';
 import 'package:saha/pages/searchpage.dart';
 import 'package:saha/pages/signup.dart';
 import 'package:saha/payment/checkout_screen.dart';
+import 'package:saha/services/database.dart';
+
+import 'categories_page.dart';
 
 class MyHomePage extends StatefulWidget {
 
@@ -22,11 +27,29 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
+
   final User user = FirebaseAuth.instance.currentUser;
   final uid = FirebaseAuth.instance.currentUser.displayName;
+
+ var _pages = <Widget>[
+    MyHomePage(),//this is a stateful widget on a separate file
+   CategoriesPage(),//this is a stateful widget on a separate file
+    //School(),//this is a stateful widget on a separate file
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    first();
+    List<Product> bookList = Provider.of<List<Product>>(context);
+   // bookList.forEach((e) {print(e);});
+  //print(bookList.last.name);
+    //print(bookList.last.productId);
+
     //gives the current user doc id
     print(widget.uid);
     Widget imageCarousel = new Container(
@@ -80,16 +103,18 @@ class _MyHomePageState extends State<MyHomePage> {
               icon: Icon(Icons.search),
               color: Colors.blueGrey,
               onPressed: () {Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => new SearchBar()));}),
+                  context, MaterialPageRoute(builder: (context) =>
+              new SearchBar()
+              ));}),
           IconButton(
             onPressed: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => new CheckoutScreen()));
+                  context, MaterialPageRoute(builder: (context) => StreamProvider<Users>.value(
+                  value: Database().users, child:CheckoutScreen())));
             },
             icon:  new Stack(
                 children: <Widget>[
                   new Icon(Icons.shopping_cart,color: Colors.blueGrey,),
-
                   new Positioned(  // draw a red marble
                     top: 0.0,
                     right: 0.0,
@@ -142,7 +167,9 @@ class _MyHomePageState extends State<MyHomePage> {
               decoration: new BoxDecoration(color: Colors.lightBlue[50]),
             ),
             InkWell(
-              onTap: () {},
+              onTap: (){
+                Navigator.of(context).pop();
+              },
               child: ListTile(
                 title: Text('Home Page'),
                 leading: Icon(
@@ -172,7 +199,11 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => StreamProvider<Users>.value(
+                    value: Database().users, child:CheckoutScreen())));
+              },
               child: ListTile(
                 title: Text('Shoping Cart'),
                 leading: Icon(
@@ -226,38 +257,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      /*appBar: AppBar(
-        title: Text(widget.title),
 
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: const Icon(Icons.menu),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-            );
-          },
-        ),
-      ),*/
-      /*body: FutureBuilder(
-        future: getimgfromFirebase(),
-        builder: (_, snapshot) {
-          return CarouselSlider.builder(
-            itemBuilder: (BuildContext context, int index) {
-              DocumentSnapshot sliderimage = snapshot.data[index];
-              return Container(
-                child: Image.network(sliderimage["img"]),
-              );
-            },
-            options: CarouselOptions(
-              autoPlay: true,
-            ),
-            itemCount: snapshot.data.length,
-          );
-        },
-      ),*/
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         type: BottomNavigationBarType.fixed,
@@ -267,6 +267,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Colors.white70,
         selectedItemColor: Colors.blueAccent,
         unselectedItemColor: Colors.blueGrey,
+        onTap: _onItemTapped,
         items: [
           BottomNavigationBarItem(
               icon: Icon(Icons.home),
@@ -276,6 +277,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               backgroundColor: Colors.red),
           BottomNavigationBarItem(
+
               icon: Icon(Icons.category),
               title: Text(
                 'Categories',
@@ -307,13 +309,16 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               backgroundColor: Colors.deepPurple),
         ],
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
+        //onTap: (index) {
+        //  setState(() {
+         //   _currentIndex = index;
+          //}
+         // );
+        //},
       ),
-      body: new ListView(
+      body:
+      //_pages.elementAt(_currentIndex),
+      new ListView(
         children: <Widget>[
           imageCarousel,
           new Padding(

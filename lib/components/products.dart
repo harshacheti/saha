@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
 import 'package:saha/actions/button_color.dart';
+import 'package:saha/models/user.dart';
 import 'package:saha/pages/product_details.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:saha/services/database.dart';
 
 import 'design_course_app_theme.dart';
 
@@ -28,14 +31,15 @@ class Products extends StatelessWidget {
                 //print(snapshot.data.documents[index].data());
                 DocumentSnapshot products = snapshot.data.documents[index];
                 var productsId = products.id;
-
+    if (snapshot.hasData) {
                 return Padding(
                     padding: const EdgeInsets.all(2.0),
                     child: InkWell(
                         onTap: () =>
                             Navigator.of(context).push(new MaterialPageRoute(
                                 builder: (context) =>
-                                new ProductDetails(
+                StreamProvider<Users>.value(
+                value: Database().users, child:new ProductDetails(
                                   //passing value of product
                                   product_details_name:
                                   products.data()['title'],
@@ -48,7 +52,7 @@ class Products extends StatelessWidget {
                                   product_details_description:
                                   products.data()['description'],
                                   product_details_id: products.id,
-                                ))),
+                                )))),
                         child: Container(
                           width: MediaQuery
                               .of(context)
@@ -83,17 +87,28 @@ class Products extends StatelessWidget {
                                     // iconSize: 15.0,
                                     // value: 0,
                                     // product_details_id: products.id),
+
                                     ButtonColor(
                                       product_details_id: products.id,),
                                   ])
                                 //),
-                              )),
-                        )));
+                              )
+                          ),
+                        )
+                    )
+                );
+    }
+    else{
+      return CircularProgressIndicator();
+    }
               }
           )
       );
-    }else{
-      return CircularProgressIndicator(value: 5,);
+    }
+    else{
+      return  Container(
+          child:CircularProgressIndicator()
+      );
     }
       },
     );

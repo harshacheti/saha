@@ -5,27 +5,22 @@ import 'dart:async';
 
 var state;
 
-first() {
-  var firebaseUser = FirebaseAuth.instance.currentUser;
-  FirebaseFirestore.instance
-      .collection("users")
-      .doc(firebaseUser.uid)
-      .get()
-      .then((d) {
-    var com = d.data()["cart"];
-    print(com);
+
+
+first(userCart) {
+    var com = userCart;
+   // print(com);
     if (com == "") {
       state = [];
     } else {
       state = deSerializeItems(com);
     }
-  });
 }
 
-main() {
-  const twentyMillis = const Duration(milliseconds: 1);
-  new Timer(twentyMillis, () => first());
-}
+//main() {
+ // const twentyMillis = const Duration(milliseconds: 200);
+ // new Timer(twentyMillis, () => first());
+//}
 
 
 serializeItems(items) {
@@ -41,7 +36,7 @@ serializeItems(items) {
 
 deSerializeItems(cart) {
   var items = [];
-  print(cart);
+ // print(cart);
   if (cart == '') {
     return items;
   }
@@ -70,7 +65,7 @@ incrementItem(items, count, id, doc) {
   // print(items);
   //var idx = items.findIndex(items['id'],'$id') ;
   var idx = items.indexWhere((item) => item['id'] == id);
-  print('$idx');
+ // print('$idx');
 
   if (idx != -1) {
     var count = items[idx]['quantity'];
@@ -107,9 +102,9 @@ decrementItem(items, id) {
 
 
 addItem(var item, a) async {
-  print(state);
+ // print(state);
   var idx = state.indexWhere((a) => a['id'] == item);
-  print(idx);
+ // print(idx);
   if (idx == -1) {
     var firebaseUser = FirebaseAuth.instance.currentUser;
     FirebaseFirestore.instance
@@ -131,7 +126,7 @@ addItem(var item, a) async {
           .update({
         'cart': l,
       });
-      first();
+      //first();
     });
 
   }
@@ -146,7 +141,7 @@ addItem(var item, a) async {
       var doc = d.data()["cart"];
       var items = deSerializeItems(doc);
       var newItems = incrementItem(items, a, item, doc);
-      print(newItems);
+    //  print(newItems);
       return serializeItems(newItems);
     }).then((cart) {
       //print(cart);
@@ -156,7 +151,7 @@ addItem(var item, a) async {
           .update({
         'cart': '$cart',
       });
-      first();
+      //first();
     });
   }
 }
@@ -190,8 +185,8 @@ remove(var a,) {
     var lit = rat;
     var upCart = lit.replaceFirst('$a,', '');
     //var cry=upCart.join(', ');
-    print(lit);
-    print(upCart);
+    //print(lit);
+    //print(upCart);
     //  print(cry);
     FirebaseFirestore.instance
         .collection("users")
@@ -241,7 +236,7 @@ removeItem(item, val) {
            FirebaseFirestore.instance
               .collection("users")
               .doc(FirebaseAuth.instance.currentUser.uid)
-              .update({ 'cart': '$cart'}); first();
+              .update({ 'cart': '$cart'}); //first();
         });
   //.catch((e) => dispatch({ type: "ADD_NEW_ITEM_FIRESTORE_ERR", e }));
   }
@@ -263,7 +258,7 @@ removeItem(item, val) {
    FirebaseFirestore.instance
       .collection("users")
       .doc(FirebaseAuth.instance.currentUser.uid)
-      .update({ cart: cart }); first();
+      .update({ 'cart': '$cart' }); //first();
   });
      // .catch((e) => dispatch({ type: "ADD_NEW_ITEM_FIRESTORE_ERR", e }));
   }

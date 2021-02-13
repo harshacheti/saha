@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:saha/actions/button_color.dart';
 import 'package:saha/components/products.dart';
+import 'package:saha/pages/searchpage.dart';
 
 
 import '../main.dart';
@@ -45,26 +47,35 @@ class _ProductDetailsState extends State<ProductDetails> {
           ),
           titleSpacing: -10.0,
           actions: <Widget>[
-            new IconButton(icon: Icon(Icons.search), onPressed: () {}),
+            new IconButton(icon: Icon(Icons.search), onPressed: () {Navigator.push(
+                context, MaterialPageRoute(builder: (context) => new SearchBar()));}),
           ],
         ),
+        bottomNavigationBar:
+        ButtonColor(
+          product_details_id: widget.product_details_id,),
 
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton:Padding(
-          padding: const EdgeInsets.only(bottom: 8.0),
-          child: FloatingActionButton.extended(
-          elevation: 6,
-            shape: RoundedRectangleBorder(
-              side:
-              BorderSide(color: Colors.blue),
-              borderRadius:
-              const BorderRadius.all(
-                  Radius.circular(100.0)),
-            ),
-             isExtended: true,
-            label: Text("Add to My Cart",style: TextStyle(color: Colors.blue),),
-            backgroundColor: Colors.white,
-            onPressed: () {})),
+       // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+       // floatingActionButton:Padding(
+       //   padding: const EdgeInsets.only(bottom: 8.0),
+        //  child: ButtonColor(
+          //  product_details_id: widget.product_details_id,),
+          //FloatingActionButton.extended(
+          //elevation: 6,
+         //   shape: RoundedRectangleBorder(
+          //    side:
+           //   BorderSide(color: Colors.blue),
+           //   borderRadius:
+          //    const BorderRadius.all(
+           //       Radius.circular(100.0)),
+           // ),
+          //   isExtended: true,
+          //  label: Text("Add to My Cart",style: TextStyle(color: Colors.blue),),
+         //   backgroundColor: Colors.white,
+         //   onPressed: () {}
+
+       // ),
+
         body: SingleChildScrollView(
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -154,21 +165,37 @@ class _ProductDetailsState extends State<ProductDetails> {
                         ],
                       ),
                     ),
-                    Divider(
-                      color: Colors.blueGrey,
+                    //Divider(
+                    //  color: Colors.blueGrey,
+                   // ),
+                    //ButtonColor(product_details_id: widget.product_details_id,),
+                    new Padding(
+                      padding: const EdgeInsets.only(left:18,top: 3,bottom: 3),
+                      child: Container(
+                        alignment: Alignment.centerLeft,
+                        child: new Text(
+                          'Description',
+                          style: new TextStyle(fontSize: 16,
+                              fontWeight: FontWeight.bold, color: Color(0xfffc5185),decorationStyle: TextDecorationStyle.dashed),
+
+                        ),
+                      ),
                     ),
                     Container(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                       child: Text(
                         widget.product_details_description,
                         style: GoogleFonts.varelaRound(
                           color: Colors.grey,
                           fontWeight: FontWeight.w400,
-                          fontSize: 16,
+                          fontSize: 15,
                         ),
                       ),
                     ),
+                    Divider(
+                      color: Colors.blueGrey,
+                     ),
                     new Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(

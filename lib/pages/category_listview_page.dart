@@ -1,7 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
+import 'package:saha/models/user.dart';
 import 'package:saha/pages/product_details.dart';
+import 'package:saha/pages/searchpage.dart';
+import 'package:saha/services/database.dart';
 
 class CategoryDetails extends StatefulWidget {
   final category_details_id;
@@ -31,8 +35,9 @@ class _CategoryDetailsState extends State<CategoryDetails> {
           backgroundColor: Colors.lightBlue[50],
           iconTheme: IconThemeData(color: Colors.blueGrey),
           actions: <Widget>[
-            new IconButton(icon: Icon(Icons.search), onPressed: () {}),
-            new IconButton(icon: Icon(Icons.shopping_cart), onPressed: () {}),
+            new IconButton(icon: Icon(Icons.search), onPressed: () {Navigator.push(
+                context, MaterialPageRoute(builder: (context) => new SearchBar()));}),
+           // new IconButton(icon: Icon(Icons.shopping_cart), onPressed: () {}),
           ],
         ),
         body: StreamBuilder(
@@ -59,7 +64,8 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                           child: InkWell(
                               onTap: () => Navigator.of(context)
                                   .push(new MaterialPageRoute(
-                                      builder: (context) => new ProductDetails(
+                                      builder: (context) => StreamProvider<Users>.value(
+                      value: Database().users, child: new ProductDetails(
                                             //passing value of product
                                             product_details_name:
                                                 products.data()['title'],
@@ -71,7 +77,8 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                                                 products.data()['imageURL'],
                                         product_details_description:
                                         products.data()['description'],
-                                          ))),
+                                        product_details_id: products.id,
+                                          )))),
                               child: Container(
                                 height: 110,
                                 //child: Card(

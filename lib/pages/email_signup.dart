@@ -1,7 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:saha/models/user.dart';
 import 'package:saha/pages/home_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:saha/services/database.dart';
 
 
 class EmailSignUp extends StatefulWidget {
@@ -175,9 +178,10 @@ class _EmailSignUpState extends State<EmailSignUp> {
         isLoading = false;
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => MyHomePage(
+          MaterialPageRoute(builder: (context) => StreamProvider<Users>.value(
+          value: Database().users, child:MyHomePage(
           title: 'home',
-        ),
+        )),
         ));
       });
     }).catchError((err) {

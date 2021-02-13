@@ -2,6 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
+import 'package:saha/models/user.dart';
+import 'package:saha/services/database.dart';
 
 import 'email_login.dart';
 import 'email_signup.dart';
@@ -72,9 +75,11 @@ class _SignUpState extends State<SignUp> {
 
     Navigator.push(
       context,
+
       new MaterialPageRoute(
         //builder: (context) => new ProfileScreen(detailsUser: details),
-        builder: (context)=> MyHomePage(title: 'home'), //new HVhome(detailsUser: details),
+        builder: (context)=> StreamProvider<Users>.value(
+      value: Database().users, child:MyHomePage(title: 'home')), //new HVhome(detailsUser: details),
       ),
     );
     return userDetails;
