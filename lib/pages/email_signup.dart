@@ -6,6 +6,8 @@ import 'package:saha/pages/home_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:saha/services/database.dart';
 
+import 'appbar&bottom_nav.dart';
+
 
 class EmailSignUp extends StatefulWidget {
   @override
@@ -178,10 +180,11 @@ class _EmailSignUpState extends State<EmailSignUp> {
         isLoading = false;
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => StreamProvider<Users>.value(
-          value: Database().users, child:MyHomePage(
-          title: 'home',
-        )),
+          MaterialPageRoute(builder: (context) =>new AppbarBottomNav(),
+        //  StreamProvider<Users>.value(
+        //  value: Database().users, child:MyHomePage(
+       //   title: 'home',
+      //  )),
         ));
       });
     }).catchError((err) {

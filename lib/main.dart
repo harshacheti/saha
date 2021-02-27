@@ -4,12 +4,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:saha/pages/appbar&bottom_nav.dart';
 import 'package:saha/pages/home_page.dart';
 import 'package:saha/services/database.dart';
 import 'package:splashscreen/splashscreen.dart';
 
 import 'package:saha/pages/signup.dart';
 
+import 'actions/cart.dart';
 import 'models/products_stream.dart';
 import 'models/user.dart';
 
@@ -24,19 +26,25 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
     ]);
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Splash',
-      theme: ThemeData(
-        brightness: Brightness.light,
-        primaryColor: Colors.lightBlue[50],
-        accentColor: Colors.cyan[600],
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        //canvasColor: Colors.transparent,
+    return MultiProvider(
+      providers: [ChangeNotifierProvider.value(
+        value: Cart(),
+      ),],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Splash',
+        theme: ThemeData(
+          brightness: Brightness.light,
+          primaryColor: Colors.lightBlue[50],
+          accentColor: Colors.cyan[600],
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          //canvasColor: Colors.transparent,
+        ),
+        home: //CartLoading(),
+            IntroScreen(),
       ),
-      home: //CartLoading(),
-          IntroScreen(),
     );
   }
 }
@@ -50,8 +58,9 @@ class IntroScreen extends StatelessWidget {
     //print(net);
     return new SplashScreen(
         navigateAfterSeconds: result != null
-            ? StreamProvider<Users>.value(
-                value: Database().users, child: MyHomePage(uid: result.uid))
+            ?
+        AppbarBottomNav(uid: result.uid)//StreamProvider<Users>.value(
+                //value: Database().users, child: MyHomePage(uid: result.uid))
             : SignUp(),
         seconds: 5,
         image: Image.asset('assets/images/ENGLISH-TEL (TRANSPARENT).png',

@@ -165,3 +165,39 @@ main() {
 //future();
 
 // var product_on_the_cart = [item()];
+
+
+//if(products.id)
+
+//   FirebaseFirestore.instance
+//      .collection("products")
+//     .doc(i['id'])
+//    .snapshots()
+//   .map((event) =>
+//event.map((DocumentSnapshot snapshot) =>
+//        Orders(productName: event.data()['title'],productPrice:event.data()['totalPrice'],productQuantity: f['quantity'] ));
+
+
+
+// FirebaseFirestore.instance
+//     .collection("users")
+//     .doc(FirebaseAuth.instance.currentUser.uid)
+//     .get()
+//     .then((snap) {
+//   var i = deSerializeItems(snap.data()['cart']);
+//   i.forEach((d) {
+//     FirebaseFirestore.instance
+//        .collection("products")
+//        .doc(d['id'])
+//        .get();
+//.then((value) {
+//  chat.add("$value"+"lol:"+d['quantity'].toString());
+//  print(chat);
+//   return chat;
+// });
+//  });
+// });
+//   var bookList = Provider.of<Users>(context);
+// print(Users.cart);
+// print(chat);
+// set up POST request arguments

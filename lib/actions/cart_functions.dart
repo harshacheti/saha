@@ -267,3 +267,43 @@ removeItem(item, val) {
 }
 //};
 }
+
+
+ loadCartItems(items) {
+//return (dispatch, getState, { getFirebase, getFirestore }) => {
+//const firestore =  FirebaseFirestore.instance;
+//var state = getState();
+//if (state.firebase.auth.uid) {
+ // FirebaseFirestore.instance
+ //   .collection("users")
+//    .doc(state.firebase.auth.uid)
+//    .get()
+//    .then((d) {
+//var doc = d.data();
+//var items = deSerializeItems(doc.cart);
+//return items;
+//})
+   // .then((items) => {
+  var bat=[];
+  int res=0;
+items.forEach((item){
+FirebaseFirestore.instance
+    .collection("products")
+    .doc(item['id'])
+    .get()
+    .then((d){
+  //print(d.data());
+final data = d.data();
+bat.add(data);
+//print(bat.first['title']);
+//res = res +();
+return bat;
+    });
+//print(bat);
+});
+//print(bat);
+}
+
+
+
+

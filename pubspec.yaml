@@ -42,6 +42,7 @@ dependencies:
   algolia:
   provider:
   connectivity:
+  http:
 
 
 dev_dependencies:

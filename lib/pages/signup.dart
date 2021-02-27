@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:saha/models/user.dart';
 import 'package:saha/services/database.dart';
 
+import 'appbar&bottom_nav.dart';
 import 'email_login.dart';
 import 'email_signup.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -78,8 +79,8 @@ class _SignUpState extends State<SignUp> {
 
       new MaterialPageRoute(
         //builder: (context) => new ProfileScreen(detailsUser: details),
-        builder: (context)=> StreamProvider<Users>.value(
-      value: Database().users, child:MyHomePage(title: 'home')), //new HVhome(detailsUser: details),
+        builder: (context)=> new AppbarBottomNav(),//StreamProvider<Users>.value(
+      //value: Database().users, child:MyHomePage(title: 'home')), //new HVhome(detailsUser: details),
       ),
     );
     return userDetails;

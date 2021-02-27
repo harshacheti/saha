@@ -7,16 +7,19 @@ import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:saha/actions/button_color.dart';
 import 'package:saha/actions/cart_functions.dart';
+import 'package:saha/actions/payment_actions.dart';
+import 'package:saha/models/orders.dart';
 import 'package:saha/models/products_stream.dart';
 import 'package:saha/models/user.dart';
+import 'package:saha/pages/appbar&bottom_nav.dart';
 import 'package:saha/pages/home_page.dart';
 import 'package:saha/services/database.dart';
 
-//var list = [];
-
 class CheckoutScreen extends StatefulWidget {
+
   @override
   _CheckoutScreenState createState() => _CheckoutScreenState();
+
 }
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
@@ -24,15 +27,17 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   bool isLoading = false;
   Razorpay _razorpay = Razorpay();
   final _formKey = GlobalKey<FormState>();
+
   //var chat = [];
-  var chat = [];
+  final chat = [];
+  var cha = [];
   var items;
   var lolPrice;
-  var res = 0;
+  int res ;
   TextEditingController addressController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
 
-  _showModalBottomSheet(context) {
+  _showModalBottomSheet(context,f,products) {
     showModalBottomSheet(
         isScrollControlled: true,
         context: context,
@@ -52,232 +57,274 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                   topLeft: Radius.circular(20),
                                   topRight: Radius.circular(20))),
                           child: Form(
-                          key: _formKey,
-                          child:Column(children: <Widget>[
-                            Padding(
-                                padding: EdgeInsets.only(
-                                    top: 50.0, bottom: 10, left: 20, right: 20),
-                                child: Title(
-                                    color: Colors.black,
-                                    child: Text('Enter Delivery Address'))),
-                            Padding(
-                                padding: EdgeInsets.only(
-                                    top: 10.0, bottom: 10, left: 20, right: 20),
-                                child: new Theme(
-                                    data: new ThemeData(
-                                      primaryColor: Colors.redAccent,
-                                      primaryColorDark: Colors.red,
-                                    ),
-                                    child: TextFormField(
-                                      maxLines: 2,
-                                      cursorColor: Colors.red,
-                                      controller: addressController,
-                                      decoration: InputDecoration(
-                                        icon: Icon(Icons.map),
-                                        fillColor: Colors.red,
-                                        hoverColor: Colors.red,
-                                        labelText: "Enter Address",
-                                        enabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(5.0),
+                              key: _formKey,
+                              child: Column(children: <Widget>[
+                                Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 50.0,
+                                        bottom: 10,
+                                        left: 20,
+                                        right: 20),
+                                    child: Title(
+                                        color: Colors.black,
+                                        child: Text('Enter Delivery Address'))),
+                                Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 10.0,
+                                        bottom: 10,
+                                        left: 20,
+                                        right: 20),
+                                    child: new Theme(
+                                        data: new ThemeData(
+                                          primaryColor: Colors.redAccent,
+                                          primaryColorDark: Colors.red,
                                         ),
-                                      ),
-                                      validator: (value) {
-                                        if (value.isEmpty) {
-                                          return 'Enter Address';
-                                        }
-                                        return null;
-                                      },
-                                    ))),
-                            Padding(
-                                padding: EdgeInsets.only(
-                                    top: 10.0, bottom: 10, left: 20, right: 20),
-                                child: new Theme(
-                                    data: new ThemeData(
-                                      primaryColor: Colors.redAccent,
-                                      primaryColorDark: Colors.red,
-                                    ),
-                                    child: TextFormField(
-                                      maxLines: 1,
-                                      cursorColor: Colors.red,
-                                      controller: phoneController,
-                                      decoration: InputDecoration(
-                                        icon: Icon(Icons.map),
-                                        fillColor: Colors.red,
-                                        hoverColor: Colors.red,
-                                        labelText: "Enter Phone Number",
-                                        enabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(5.0),
-                                        ),
-                                      ),
-                                      validator: (value) {
-                                        if (value.isEmpty) {
-                                          return 'Enter Phone Number';
-                                        } else if (value.length != 10) {
-                                          return 'Please enter a valid Phone Number';
-                                        }
-                                        return null;
-                                      },
-                                    ))),
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 10,left: 20,right: 20,top: 20),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                              Padding(
-                              padding: EdgeInsets.all(10),
-                                  child:
-                                  RaisedButton(
-                                    color: Theme.of(context).primaryColor,
-                                    onPressed: () {
-                                      if (_formKey.currentState.validate()) {
-                                        setState(() {
-                                          isLoading = true;
-                                        });
-                                        _openRazorpay();
-                                      }
-                                    },
-                                    child: Text('Online Payment'),
-                                  )),
-                        Padding(
-                          padding: EdgeInsets.all(10),
-                          child:
-                                  RaisedButton(
-                                    color: Theme.of(context).primaryColor,
-                                    onPressed: () {
-                                      if (_formKey.currentState.validate()) {
-                                        setState(() {
-                                          isLoading = true;
-                                        });
-                                        return showDialog(
-                                          context: context,
-                                          builder: (ctx) => AlertDialog(
-
-                                            title: Text("Order Placed Successfully"),
-                                            content: Icon(Icons.check_circle_rounded,color: Colors.green,size: 48,),
-                                            actions: <Widget>[
-                                              FlatButton(
-                                                onPressed: () {
-                                                  Navigator.push(
-                                                    context,
-
-                                                    new MaterialPageRoute(
-                                                      //builder: (context) => new ProfileScreen(detailsUser: details),
-                                                      builder: (context)=> StreamProvider<Users>.value(
-                                                          value: Database().users, child:MyHomePage(title: 'home')), //new HVhome(detailsUser: details),
-                                                    ),
-                                                  );
-                                                },
-                                                child: Text("okay"),
-                                              ),
-                                            ],
+                                        child: TextFormField(
+                                          maxLines: 2,
+                                          cursorColor: Colors.red,
+                                          controller: addressController,
+                                          decoration: InputDecoration(
+                                            icon: Icon(Icons.map),
+                                            fillColor: Colors.red,
+                                            hoverColor: Colors.red,
+                                            labelText: "Enter Address",
+                                            enabledBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(5.0),
+                                            ),
                                           ),
-                                        );
-                                      }
-                                    },
-                                    child: Text('Cash on Delivery'),
-                                  ),)
-                                ],
-                              ),
-                            )
-                          ]))))));
+                                          validator: (value) {
+                                            if (value.isEmpty) {
+                                              return 'Enter Address';
+                                            }
+                                            return null;
+                                          },
+                                        ))),
+                                Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 10.0,
+                                        bottom: 10,
+                                        left: 20,
+                                        right: 20),
+                                    child: new Theme(
+                                        data: new ThemeData(
+                                          primaryColor: Colors.redAccent,
+                                          primaryColorDark: Colors.red,
+                                        ),
+                                        child: TextFormField(
+                                          maxLines: 1,
+                                          cursorColor: Colors.red,
+                                          controller: phoneController,
+                                          decoration: InputDecoration(
+                                            icon: Icon(Icons.map),
+                                            fillColor: Colors.red,
+                                            hoverColor: Colors.red,
+                                            labelText: "Enter Phone Number",
+                                            enabledBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(5.0),
+                                            ),
+                                          ),
+                                          validator: (value) {
+                                            if (value.isEmpty) {
+                                              return 'Enter Phone Number';
+                                            } else if (value.length != 10) {
+                                              return 'Please enter a valid Phone Number';
+                                            }
+                                            return null;
+                                          },
+                                        ))),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      bottom: 10, left: 20, right: 20, top: 20),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                          padding: EdgeInsets.all(10),
+                                          child: RaisedButton(
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            onPressed: () {
+                                              if (_formKey.currentState
+                                                  .validate()) {
+                                                setState(() {
+                                                  makeOnlinePayRequest(addressController.text,phoneController.text,f,products);
+                                                  isLoading = true;
+                                                });
+                                                _openRazorpay();
+                                              }
+                                            },
+                                            child: Text('Online Payment'),
+                                          )),
+                                      Padding(
+                                        padding: EdgeInsets.all(10),
+                                        child: RaisedButton(
+                                          color: Theme.of(context).primaryColor,
+                                          onPressed: () {
+                                            if (_formKey.currentState
+                                                .validate()) {
+                                              makeCodRequest(addressController.text,phoneController.text,f,products);
+                                              setState(() {
+                                                isLoading = true;
+                                              });
+                                              return showDialog(
+                                                context: context,
+                                                builder: (ctx) => AlertDialog(
+                                                  title: Text(
+                                                      "Order Placed Successfully"),
+                                                  content: Icon(
+                                                    Icons.check_circle_rounded,
+                                                    color: Colors.green,
+                                                    size: 48,
+                                                  ),
+                                                  actions: <Widget>[
+                                                    FlatButton(
+                                                      onPressed: () {
+
+                                                        Navigator.push(
+                                                          context,
+                                                          new MaterialPageRoute(
+                                                            //builder: (context) => new ProfileScreen(detailsUser: details),
+                                                            builder: (context) =>  AppbarBottomNav(), //new HVhome(detailsUser: details),
+                                                          ),
+                                                        );
+                                                      },
+                                                      child: Text("okay"),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            }
+                                          },
+                                          child: Text('Cash on Delivery'),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ]))))));
         });
   }
 
   _listenToData() {
-    //print('hi1');
-
     FirebaseFirestore.instance
         .collection("users")
         .doc(FirebaseAuth.instance.currentUser.uid)
         .snapshots()
         .listen((snap) {
-      items = deSerializeItems(snap.data()['cart']);
-
-
-      items.forEach((d) {
+     var i = deSerializeItems(snap.data()['cart']);
+      i.forEach((d) {
         FirebaseFirestore.instance
             .collection("products")
             .doc(d['id'])
             .get()
             .then((value) {
-
-          chat.add(value);
-
+         // chat.add(value);
         });
-       // print(chat);
       });
-    //  return chat;
-      //print(chat);
     });
-   // return chat;
   }
 
-  calcTPrice() {
-    //if (list.length == 0) return 0;
+  calcTPriceC() {
+   return StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection("users")
+            .doc(FirebaseAuth.instance.currentUser.uid)
+            .snapshots(),
+        builder: (context, snapshot) {
+        //  chat.clear();
+          if (snapshot.hasData) {
+            // print(snapshot.data['cart']);
 
-//print(mat);
-    chat.forEach((i) {
-    //  print('hiTol');
-      var idx = items.indexWhere((item) => item['id'] == i.id);
-      //print(i.id);
-      res = res + (i['totalPrice'] * items[idx]['quantity']);
-    });
-    return res;
+            var k = deSerializeItems(snapshot.data['cart']);
+          k.forEach((item) {
+              FirebaseFirestore.instance
+                  .collection("products")
+                  .doc(item['id'])
+                  .get()
+                  .then((d) {
+                //print(d.data());
+                final data = d.data();
+                chat.add(data);
+               // print(chat);
+                return chat;
+              });
+         });
+            FirebaseFirestore.instance
+                .collection("products")
+                .get().then((d) {
+              d.docs.forEach((i) {
+               // print(i.id);
+                  var idx = k.indexWhere((item) => item['id'] == i.id);
+                  if(idx!=-1){
+                     res = res + (i['totalPrice'] * k[idx]['quantity']);}
+
+              });
+            });
+
+        //    print(chat);
+
+            return Text(
+              'Total Amount:' + res.toString(),
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            );
+          } else {
+            return CircularProgressIndicator();
+          }
+        });
+
+   /// chat.forEach((i) {
+   ///  var idx = items.indexWhere((item) => item['id'] == i.id);
+   ///    res = res + (i['totalPrice'] * items[idx]['quantity']);
+   ///  });
+   ///  return res;
   }
-
-  //void clen(){
-  //  Future.delayed(const Duration(milliseconds:2200), () {
-   //   chat.clear();
-  //  });
- //   clen();
- // }
 
   @override
   void initState() {
     super.initState();
-  _listenToData();
+    _listenToData();
 
-   // clen();
-    Future.delayed(const Duration(milliseconds:800), () {
+    calcTPriceC();
+
+    // clen();
+    Future.delayed(const Duration(milliseconds: 800), () {
       setState(() {
-        calcTPrice();
-       // calcTPrice();
-      //  CheckoutScreen();
-       // buildAllAds();
+       // res = 0;
+        calcTPriceC();
       });
     });
-   // initState();
+    // initState();
 
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
   }
 
-
-
-
-
   buildAllAds() {
-    if(chat.length==0){
+    if (chat.length == 0) {
       return CircularProgressIndicator();
-    }
-    else {
+    } else {
       return ListView.builder(
           itemCount: chat.length,
-
           itemBuilder: (context, index) {
-            print(chat.length);
+          //  print(chat.length);
             return Padding(
                 padding: const EdgeInsets.all(2.0),
                 child: InkWell(
-                    onTap: () =>
-                        Navigator.push(
-                            context, MaterialPageRoute(builder: (context) =>
-                        StreamProvider<Users>.value(
-                            value: Database().users, child: CheckoutScreen()))),
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => StreamProvider<Users>.value(
+                                value: Database().users,
+                                child: CheckoutScreen()))),
                     child: Container(
                       height: 110,
                       //child: Card(
@@ -318,37 +365,33 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           ),
                           Flexible(
                               child: Column(children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Text(
-                                    chat[index]['title'],
-                                    softWrap: true,
-                                    maxLines: 3,
-                                    overflow: TextOverflow.visible,
-                                    textAlign: TextAlign.center,
-                                    textHeightBehavior: TextHeightBehavior(
-                                        applyHeightToFirstAscent: true),
-                                  ),
-                                ),
-
-                                Padding(
-                                    padding: const EdgeInsets.only(left: 60.0),
-                                    child: InkWell(
-                                      onTap: () =>
-                                          Navigator.push(
-                                              context, MaterialPageRoute(
-                                              builder: (context) =>
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text(
+                                chat[index]['title'],
+                                softWrap: true,
+                                maxLines: 3,
+                                overflow: TextOverflow.visible,
+                                textAlign: TextAlign.center,
+                                textHeightBehavior: TextHeightBehavior(
+                                    applyHeightToFirstAscent: true),
+                              ),
+                            ),
+                            Padding(
+                                padding: const EdgeInsets.only(left: 60.0),
+                                child: InkWell(
+                                  onTap: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
                                               StreamProvider<Users>.value(
                                                   value: Database().users,
                                                   child: CheckoutScreen()))),
-                                      child: ButtonColor(
-                                        product_details_id: chat[index].id,
-                                      ),
-                                    )),
-                              ])
-                          ),
-
-
+                                  child: ButtonColor(
+                                    product_details_id: chat[index].id,
+                                  ),
+                                )),
+                          ])),
                         ]),
                         //Text(products['title']),
                         //),
@@ -356,12 +399,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       //    )
                     ))
 
-              // ignore: missing_return
-            );
+                // ignore: missing_return
+                );
           }
-        //  );*/
-        //  },
-      );
+          //  );*/
+          //  },
+          );
       // Container(
       //    height: 0,
       //    width: 0,
@@ -380,7 +423,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     var options = {
       'key': 'rzp_test_lxD9jsRSbpBOAz',
       // 'order_id': orderId, -> Pass order id by calling Razorpay Order API from backend
-      'amount': (res*100),
+      'amount': (calcTPriceC() * 100),
       'name': 'Razorpay Inc.',
       'description': 'Thank you for shopping with us!',
       // 'prefill': {'contact': '2783939294', 'email': 'abc@gmail.com'}, -> pass contact and email details of the user if available
@@ -462,11 +505,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   Widget build(BuildContext context) {
     List<Product> bookList = Provider.of<List<Product>>(context);
     var userList = Provider.of<Users>(context);
-   // print(userList.cart);
-  //  first(userList.cart);
+    var f = deSerializeItems(userList.cart);
+   //print(bookList.first.);
 
+    //print(Orders );
 
-    //print(bookList.last.name);
+   // print(deSerializeItems(userList.cart));
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
@@ -476,13 +520,123 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => StreamProvider<Users>.value(
-                  value: Database().users, child:MyHomePage(title: 'home')),),
+              MaterialPageRoute(builder: (context) => new AppbarBottomNav()),
             );
           },
         ),
       ),
-      body:GestureDetector(
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection("users")
+            .doc(FirebaseAuth.instance.currentUser.uid)
+            .snapshots(),
+        builder: (context, snapshot) {
+          var jam = 0;
+          if (snapshot.hasData) {
+           // print(snapshot.data['cart']);
+            var k = deSerializeItems(snapshot.data['cart']);
+            List l = loadCartItems(k);
+            //print(l.length);
+            return ListView.builder(
+                itemCount: k.length,
+                itemBuilder: (context, index) {
+                  // FirebaseFirestore.instance
+                  //   .collection("products")
+                  //  .doc(k[index]['id'])
+                  //   .get()
+                  //    .then((value) {
+                  //   cha.add(value);
+                  //  });
+                  // print(cha.length);
+                  return
+                      //StreamBuilder(stream: ,builder: null)
+
+                      StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection("products")
+                        .doc(k[index]['id'])
+                        .snapshots(),
+                    builder: (context, snap) {
+                      if (snapshot.hasData) {
+
+                        // print(k[index]['id']);
+                        //chat.forEach((i) {
+                        //   var idx = items.indexWhere((item) => item['id'] == i.id);
+                        //  res = res + (i['totalPrice'] * items[idx]['quantity']);
+                        //  });
+                        //  return res;
+                        return //Text(snap.data['title']);
+                            Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: //InkWell(
+                                    // onTap: () => Navigator.of(context).push(new MaterialPageRoute(
+                                    // ignore: missing_return
+                                    // builder: (context) {})),
+                                   // child:
+                              Container(
+                                  height: 110,
+                                  child: ListTile(
+                                    contentPadding: EdgeInsets.all(5.0),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(2.0),
+                                    ),
+                                    trailing: Padding(
+                                      padding: const EdgeInsets.all(6.0),
+                                      child: Text(
+                                          "\₹ ${snap.data['totalPrice']}",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold)),
+                                    ),
+                                    title: Row(children: <Widget>[
+                                      Image.network(
+                                        snap.data['imageURL'],
+                                        alignment: Alignment.centerLeft,
+                                      ),
+                                      Flexible(
+                                          child: Column(children: <Widget>[
+                                        Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: Text(
+                                            snap.data['title'],
+                                            softWrap: true,
+                                            maxLines: 3,
+                                            overflow: TextOverflow.visible,
+                                            textAlign: TextAlign.center,
+                                            textHeightBehavior:
+                                                TextHeightBehavior(
+                                                    applyHeightToFirstAscent:
+                                                        true),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 60.0),
+                                          child: ButtonColor(
+                                            product_details_id: snap.data.id,
+                                          ),
+                                        ),
+                                      ])),
+                                    ]),
+                                    //Text(products['title']),
+                                    //),
+                                  ),
+                                  //    )
+                                ));
+
+                                // ignore: missing_return
+                               // );
+                      } else {
+                        return CircularProgressIndicator();
+                      }
+                    }, //Text(k[index]['id'].toString()),
+                  );
+                }); //StreamBuilder(stream: ,builder: )
+          } else {
+            return CircularProgressIndicator();
+          }
+        },
+      )
+      /* GestureDetector(
         onTap:() =>
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => StreamProvider<Users>.value(
@@ -570,23 +724,24 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               // ignore: missing_return
             );
           }
-        //  );*/
+        //  );
         //  },
       ),
-      ),
+      )*/
+      ,
 
       //_cartScreen()
-     // new GestureDetector(
-       // onTap: () {
-         // chat.clear();
+      // new GestureDetector(
+      // onTap: () {
+      // chat.clear();
       // Change the color of the container beneath
-     // setState(() {
+      // setState(() {
 
-     //   calcTPrice();
-    //  });
-    //},
-    //child:
-     //buildAllAds(),
+      //   calcTPrice();
+      //  });
+      //},
+      //child:
+      //buildAllAds(),
       //),
       bottomNavigationBar: Container(
         color: Colors.blueGrey,
@@ -595,17 +750,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              'Total Amount:' + '$res',
-              style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
+            calcTPriceC(),
+            loveDa(),
             RawMaterialButton(
               onPressed: () {
-                _showModalBottomSheet(context);
+                _showModalBottomSheet(context,f,bookList);
                 // _openRazorpay();
                 //CartLoading();
                 //  setState(() {
@@ -626,11 +775,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             ),
 
           ],
-
         ),
       ),
     );
   }
 
-  //loveda() {chat=[];}
+loveDa() {chat.clear();items=''; res=0 ;return Padding(padding:EdgeInsets.all(0));}
 }

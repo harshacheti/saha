@@ -1,92 +1,41 @@
 {
   "project_info": {
-    "project_number": "217752987550",
-    "firebase_url": "https://angadi-6266d.firebaseio.com",
-    "project_id": "angadi-6266d",
-    "storage_bucket": "angadi-6266d.appspot.com"
+    "project_number": "253548443599",
+    "project_id": "suryakantham-cde7f",
+    "storage_bucket": "suryakantham-cde7f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:217752987550:android:cd3cd6d966fedc61edd88f",
-        "android_client_info": {
-          "package_name": "com.angadi.eshop"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "217752987550-d9a1ngpcoenoa105ce6ucom138qop78u.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBK-VvctLJKZytfFySOjyD55VyNsYs8Gdo"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "217752987550-d9a1ngpcoenoa105ce6ucom138qop78u.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:217752987550:android:ff132e6f732752adedd88f",
-        "android_client_info": {
-          "package_name": "com.boltzmann.angadi_mobile_firebase"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "217752987550-d9a1ngpcoenoa105ce6ucom138qop78u.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBK-VvctLJKZytfFySOjyD55VyNsYs8Gdo"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "217752987550-d9a1ngpcoenoa105ce6ucom138qop78u.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:217752987550:android:ff8b6c184be84521edd88f",
+        "mobilesdk_app_id": "1:253548443599:android:5ef7fcc34ff6d45be344ba",
         "android_client_info": {
           "package_name": "com.eangadi.saha"
         }
       },
       "oauth_client": [
         {
-          "client_id": "217752987550-d9a1ngpcoenoa105ce6ucom138qop78u.apps.googleusercontent.com",
+          "client_id": "253548443599-sundm3b4rfid8ob8ag32rn2bhtvn7k16.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.eangadi.saha",
+            "certificate_hash": "ae3bcf98657fea20e2d295767fd7504f75ef5726"
+          }
+        },
+        {
+          "client_id": "253548443599-4m1vqpk16hc1nj8ag1ntovkm4gc0fl49.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBK-VvctLJKZytfFySOjyD55VyNsYs8Gdo"
+          "current_key": "AIzaSyDbyQflVg4IE4OGCQmTSJ9BLT87eElm-bU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "217752987550-d9a1ngpcoenoa105ce6ucom138qop78u.apps.googleusercontent.com",
+              "client_id": "253548443599-4m1vqpk16hc1nj8ag1ntovkm4gc0fl49.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

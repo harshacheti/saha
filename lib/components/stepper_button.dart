@@ -4,7 +4,7 @@ import 'package:saha/actions/button_color.dart';
 import 'package:saha/actions/cart_functions.dart';
 import 'package:saha/actions/rough.dart';
 import 'package:saha/models/user.dart';
-import 'package:saha/payment/checkout_screen.dart';
+//import 'package:saha/payment/checkout_screen.dart';
 
 class CustomStepper extends StatefulWidget {
   CustomStepper({
@@ -75,6 +75,7 @@ class _CustomStepperState extends State<CustomStepper> {
                         first(userList.cart);
                         setState(() {
                           first(userList.cart);
+
                           removeItem(widget.product_details_id, value);
                           var lam = deSerializeItems(userList.cart);
                           var idx = lam.indexWhere((item) =>

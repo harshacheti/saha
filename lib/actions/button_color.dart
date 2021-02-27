@@ -67,7 +67,7 @@ class _ButtonColorState extends State<ButtonColor> {
                   first(userList.cart);
                 });
                 addItem(widget.product_details_id, 1);
-                CheckoutScreen();
+                //CheckoutScreen();
                 addIt();
                 first(userList.cart);
               },

@@ -5,6 +5,7 @@ import 'package:saha/models/user.dart';
 import 'package:saha/pages/home_page.dart';
 import 'package:saha/services/database.dart';
 
+import 'appbar&bottom_nav.dart';
 import 'home.dart';
 
 class EmailLogIn extends StatefulWidget {
@@ -98,10 +99,12 @@ class _EmailLogInState extends State<EmailLogIn> {
       isLoading = false;
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => StreamProvider<Users>.value(
-        value: Database().users, child:MyHomePage(
-          title: 'home',
-        )),),
+        MaterialPageRoute(builder: (context) => new AppbarBottomNav(),
+       // StreamProvider<Users>.value(
+      //  value: Database().users, child:MyHomePage(
+      //    title: 'home',
+      //  )),
+        ),
       );
     }).catchError((err) {
       print(err.message);
